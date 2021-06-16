@@ -1,5 +1,5 @@
 import torch
-from torchprofile import profile_macs
+from torchprofile import profile_model
 from torchvision import models
 
 if __name__ == '__main__':
@@ -13,5 +13,5 @@ if __name__ == '__main__':
         else:
             inputs = torch.randn(1, 3, 299, 299)
 
-        macs = profile_macs(model, inputs)
-        print('{}: {:.4g} G'.format(name, macs / 1e9))
+        macs, peak_memory = profile_model(model, inputs)
+        print('%s, macs: %.2fM, peak_memory: %.2fKB'%(name, macs/1e6, peak_memory))
